@@ -4,14 +4,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Build with Buildozer
-        uses: ArtemSerebryakov/buildozer-action@v1
+        uses: kivy/buildozer-action@master
         with:
-          buildozer_version: master
-          command: buildozer android debug
+          save_buildozer_cache: true
       - name: Upload APK
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Nexus-AI-APK
           path: bin/*.apk
