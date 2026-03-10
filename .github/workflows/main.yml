@@ -1,15 +1,15 @@
-name: Build APK
-on: [push]
+name: Build
+on: push
 jobs:
-  build:
+  apk:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build with Buildozer
-        uses: kivy/buildozer-action@v1
+      - name: Build
+        uses: kivy/buildozer-action@master
         with:
           save_buildozer_cache: true
-      - name: Upload APK
+      - name: Upload
         uses: actions/upload-artifact@v4
         with:
           name: Nexus-AI-APK
