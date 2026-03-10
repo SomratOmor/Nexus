@@ -5,17 +5,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build
+
+      - name: Install System Dependencies
         run: |
           sudo apt update
           sudo apt install -y git zip unzip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev python3-dev
           pip install --user --upgrade Cython==0.29.33 buildozer
+
+      - name: Execute Buildozer
+        run: |
+          # গাইডলাইন অনুযায়ী পাথ ও লাইসেন্স হ্যান্ডেলিং
           export PATH=$PATH:~/.local/bin
-          # লাইসেন্স অটো-অ্যাকসেপ্ট এবং বিল্ড শুরু
           yes | buildozer -v android debug
         env:
           HOME: /home/runner
-      - name: Upload
+
+      - name: Artifact Upload
         uses: actions/upload-artifact@v4
         with:
           name: Nexus-AI-APK
