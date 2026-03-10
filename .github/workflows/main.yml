@@ -1,23 +1,26 @@
-name: Build APK
+name: Nexus Build
 on: [push]
 jobs:
-  build:
+  nexus_job:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-      - name: Install Buildozer
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: System Setup
         run: |
-          sudo apt update
-          sudo apt install -y git zip unzip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev python3-dev
-          pip install --upgrade Cython==0.29.33 buildozer
-      - name: Build with Buildozer
+          sudo apt-get update
+          sudo apt-get install -y git zip unzip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev python3-dev
+          pip3 install --user --upgrade Cython==0.29.33 buildozer
+
+      - name: Build Execution
         run: |
+          export PATH=$PATH:~/.local/bin
           yes | buildozer -v android debug
-      - name: Upload APK
+        env:
+          HOME: /home/runner
+
+      - name: Output Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Nexus-AI-APK
